@@ -26,10 +26,14 @@ const controlRecipes = async function () {
     //2) rendering recipe
     recipeView.render(recipe);
   } catch (err) {
-    alert(err);
+    recipeView.renderError(
+      'We could not find that recipe. Please try another one!'
+    );
   }
 };
 
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-);
+const init = () => {
+  recipeView.addHandlerRender(controlRecipes);
+};
+
+init();

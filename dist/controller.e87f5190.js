@@ -948,7 +948,7 @@ const loadRecipe = async function (id) {
       description: recipe.description
     };
   } catch (error) {
-    console.error(`${error}`);
+    throw error;
   }
 };
 
@@ -1348,6 +1348,10 @@ var _parentElement = new WeakMap();
 
 var _data = new WeakMap();
 
+var _errorMessage = new WeakMap();
+
+var _message = new WeakMap();
+
 var _clear = new WeakSet();
 
 var _generateMarkup = new WeakSet();
@@ -1371,6 +1375,16 @@ class RecipeView {
       writable: true,
       value: void 0
     });
+
+    _errorMessage.set(this, {
+      writable: true,
+      value: 'We could not find that recipe. Please try another one!'
+    });
+
+    _message.set(this, {
+      writable: true,
+      value: ''
+    });
   }
 
   render(data) {
@@ -1391,9 +1405,48 @@ class RecipeView {
       </svg>
     </div>
     `;
-    _classPrivateFieldGet(this, _parentElement).innerHTML = '';
+
+    _classPrivateMethodGet(this, _clear, _clear2).call(this);
 
     _classPrivateFieldGet(this, _parentElement).insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderError(message = _classPrivateFieldGet(this, _errorMessage)) {
+    const markup = `
+    <div class="error">
+      <div>
+        <svg>
+          <use href="${_icons.default}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>
+    `;
+
+    _classPrivateMethodGet(this, _clear, _clear2).call(this);
+
+    _classPrivateFieldGet(this, _parentElement).insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMessage(message = _classPrivateFieldGet(this, _message)) {
+    const markup = `
+    <div class="message">
+      <div>
+        <svg>
+          <use href="${_icons.default}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>
+    `;
+
+    _classPrivateMethodGet(this, _clear, _clear2).call(this);
+
+    _classPrivateFieldGet(this, _parentElement).insertAdjacentHTML('afterbegin', markup);
+  }
+
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
 }
@@ -12853,11 +12906,15 @@ const controlRecipes = async function () {
 
     _recipeView.default.render(recipe);
   } catch (err) {
-    alert(err);
+    _recipeView.default.renderError('We could not find that recipe. Please try another one!');
   }
 };
 
-['hashchange', 'load'].forEach(ev => window.addEventListener(ev, controlRecipes));
+const init = () => {
+  _recipeView.default.addHandlerRender(controlRecipes);
+};
+
+init();
 },{"./model":"src/js/model.js","./recipes/recipeView.js":"src/js/recipes/recipeView.js","regenerator-runtime/runtime":"node_modules/regenerator-runtime/runtime.js","core-js/stable":"node_modules/core-js/stable/index.js"}],"node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
