@@ -1,6 +1,6 @@
 /node_modules
-/dist
+dist/
 .parcel-cache
-/.cache
+.cache/
 .eslintrc.json
 .prettierrc
