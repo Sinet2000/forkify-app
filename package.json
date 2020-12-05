@@ -1,0 +1,23 @@
+{
+  "name": "forkify-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sinet2000/forkify-app.git"
+  },
+  "author": "Nikita Nikitins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sinet2000/forkify-app/issues"
+  },
+  "homepage": "https://github.com/Sinet2000/forkify-app#readme",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "parcel": "^1.12.4",
+   
