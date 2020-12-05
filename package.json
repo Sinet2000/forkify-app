@@ -19,5 +19,22 @@
   "homepage": "https://github.com/Sinet2000/forkify-app#readme",
   "devDependencies": {
     "eslint": "^7.15.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.2.0",
     "parcel": "^1.12.4",
-   
+    "prettier": "^2.2.1",
+    "sass": "^1.30.0"
+  },
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ],
+  "dependencies": {
+    "core-js": "^3.8.0",
+    "fractional": "^1.0.0",
+    "regenerator-runtime": "^0.13.7"
+  }
+}
