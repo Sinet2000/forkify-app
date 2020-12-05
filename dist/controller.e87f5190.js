@@ -874,9 +874,11 @@ try {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.API_URL = void 0;
+exports.TIMEOUT_SECONDS = exports.API_URL = void 0;
 const API_URL = 'https://forkify-api.herokuapp.com/api/v2/recipes';
 exports.API_URL = API_URL;
+const TIMEOUT_SECONDS = 10;
+exports.TIMEOUT_SECONDS = TIMEOUT_SECONDS;
 },{}],"src/js/helpers.js":[function(require,module,exports) {
 "use strict";
 
@@ -885,11 +887,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getJSON = void 0;
 
+var _config = require("./config");
+
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+
 const getJSON = async function (url) {
   try {
-    const res = await fetch(url);
-    const data = await res.json();
+    const res = await Promise.race([fetch(url), timeout(_config.TIMEOUT_SECONDS)]);
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    const data = await res.json();
     return data;
   } catch (error) {
     throw error;
@@ -897,7 +909,7 @@ const getJSON = async function (url) {
 };
 
 exports.getJSON = getJSON;
-},{}],"src/js/model.js":[function(require,module,exports) {
+},{"./config":"src/js/config.js"}],"src/js/model.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12824,18 +12836,9 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-const recipeContainer = document.querySelector('.recipe');
-
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-}; //API for this app:
+const recipeContainer = document.querySelector('.recipe'); //API for this app:
 // https://forkify-api.herokuapp.com/v2
 ///////////////////////////////////////
-
 
 const controlRecipes = async function () {
   try {
@@ -12883,7 +12886,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50488" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52237" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
