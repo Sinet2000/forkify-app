@@ -1,3 +1,3 @@
 # forkify-app
 
-**The project now is in dev branch **
+**The project currently is in dev branch
